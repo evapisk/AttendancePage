@@ -1,8 +1,11 @@
 from flask import Blueprint
+from models import *
+
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
 
 @bp.route('/', methods=('GET', 'POST'))
 def main():
-    return "Hello world!"
+    students = Student.query.all()
+    return students
