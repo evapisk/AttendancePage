@@ -5,20 +5,26 @@ from flask_login import LoginManager, login_user
 
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash, g
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from . import db, login_manager
 from .models import User
 
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-login_manager = LoginManager()
+
+
+
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
-
-
+    if user_id is not None:
+        return User.query.get(user_id)
+    return None
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash("you must be logged in to view that page.")
+    return redirect(url_for("auth_bp.login"))
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
@@ -56,9 +62,8 @@ def login():
         if user:  # if a user is found, we want to redirect back to signup page so user can try again
             flash('Logged in successfully.')
             print('Logged in successfully.')
-            user.is_active = True
             login_user(user, remember=True)
-            return redirect(url_for('main'))
+            return redirect(url_for('main.main'))
         print("login failed")
 
     return render_template('auth/login.html')

@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
-
+login_manager = LoginManager()
 
 import json
 from pprint import pprint
@@ -27,14 +27,11 @@ def create_app():
 
     # init SQLAlchemy so we can use it later in our models
     db.init_app(app)
+    login_manager.init_app(app)
+
 
     # with app.app_context():
     #     db.create_all()
-
-
-
-    # login_manager = LoginManager()
-    # login_manager.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
