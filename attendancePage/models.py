@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from . import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
@@ -8,10 +8,17 @@ class User(db.Model):
     name = db.Column(db.String(1000))
 
 class Student(db.Model):
-    id = db.Column(db.String(100), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)  # primary keys are required by SQLAlchemy
+    schoolId = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     year = db.Column(db.Integer)
     sport = db.Column(db.String(20))
     gender = db.Column(db.String(10))
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def __repr__(self):
+        return '<Student {}>'.format(self.name)
 
 

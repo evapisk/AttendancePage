@@ -5,7 +5,8 @@ from flask_login import LoginManager, login_user
 
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash, g
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, db
+from . import db
+from .models import User
 
 
 

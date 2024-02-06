@@ -2,11 +2,16 @@ import os
 
 from flask import Flask
 from flask_login import LoginManager, login_manager
-from models import *
-
-
+# from . import models
 from flask_sqlalchemy import SQLAlchemy
 
+
+
+db = SQLAlchemy()
+
+
+import json
+from pprint import pprint
 
 
 
@@ -23,8 +28,8 @@ def create_app():
     # init SQLAlchemy so we can use it later in our models
     db.init_app(app)
 
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
 
 
 
