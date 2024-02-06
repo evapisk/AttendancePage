@@ -13,3 +13,5 @@ class Student(db.Model):
     year = db.Column(db.Integer)
     sport = db.Column(db.String(20))
     gender = db.Column(db.String(10))
+
+

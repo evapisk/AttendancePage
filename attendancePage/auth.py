@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, db
 
 
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 login_manager = LoginManager()
 
