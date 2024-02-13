@@ -63,7 +63,7 @@ def login():
             flash('Logged in successfully.')
             print('Logged in successfully.')
             login_user(user, remember=True)
-            return redirect(url_for('main.main'))
+            return redirect('/master')
         print("login failed")
 
     return render_template('auth/login.html')

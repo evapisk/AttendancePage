@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Buttons Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 10;
+        }
+        .button {
+            margin: 20px;
+            padding: 30px 20px;
+            font-size: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<h2>Individual Sheets</h2>
+<body>
+
+<div class="button-container">
+  <form action="/year" method="get">
+    <button type="submit">Year</button>
+  </form>
+  <form action="/sport" method="get">
+    <button type="submit">Sport</button>
+  </form>
+  <form action="/gender" method="get">
+    <button type="submit">Gender</button>
+  </form>
+</div>
+</body>
+</html>

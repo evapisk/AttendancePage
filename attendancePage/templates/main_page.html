@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Main Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .button-container {
+    margin-bottom: 20px;
+  }
+  button {
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .main-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  .main-list li {
+    padding: 8px;
+    background-color: #f0f0f0;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="button-container">
+  <form action="/master" method="get">
+    <button type="submit">Master Sheet</button>
+  </form>
+  <form action="/indv" method="get">
+    <button type="submit">Individual Sheets</button>
+  </form>
+  <form action="/admin" method="get">
+    <button type="submit">Admin Controls</button>
+  </form>
+</div>
+
+<h2 align="center">Master Sheet</h2>
+<ul class="main-list">
+  <table>
+  <tr>
+    <td style="padding: 40px"></td>
+    <th>Name</th>
+    <td style="padding: 40px"></td>
+    <th>Grade</th>
+    <td style="padding: 40px"></td>
+    <th>Sport</th>
+    <td style="padding: 40px"></td>
+    <th>Gender</th>
+  </tr>
+  {% for student in student_list %}
+    <tr>
+      <td style="padding: 40px"></td>
+      <td>{{student.name}}</td>
+      <td style="padding: 40px"></td>
+      <td>{{student.year}}</td>
+      <td style="padding: 40px"></td>
+      <td>{{student.sport}}</td>
+      <td style="padding: 40px"></td>
+      <td>{{student.gender}}</td>
+    </tr>
+  {% endfor %}
+<div id="student-management">
+  <h3>Manage Students</h3>
+  <input type="text" id="studentNameInput" placeholder="Enter student name" />
+  <button class="action-button" onclick="addStudent()">Add Student</button>
+  <ul id="studentList" class="student-list">
+    <!-- Dynamically added student entries will appear here -->
+  </ul>
+</div>
+
+<script>
+  function addStudent() {
+    const studentName = document.getElementById('studentNameInput').value.trim();
+    if (studentName === '') {
+      alert('Please enter a student name.');
+      return;
+    }
+    const studentList = document.getElementById('studentList');
+    const li = document.createElement('li');
+    li.textContent = studentName + " ";
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.className = 'action-button';
+    removeButton.onclick = function() { this.parentNode.remove(); };
+    li.appendChild(removeButton);
+    studentList.appendChild(li);
+    document.getElementById('studentNameInput').value = ''; // Clear input field
+  }
+</script>
+
+</body>
+</html>
+
+  <!-- Add more list items as needed -->
+</ul>
+
+</body>
+</html>
