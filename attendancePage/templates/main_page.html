@@ -44,6 +44,35 @@
 </div>
 
 <h2 align="center">Master Sheet</h2>
+<form action="/student" method="post">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname"><br>
+  <label for="year">Grade:</label><br>
+  <select id="year" name="year">
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+  </select><br>
+  <label for="sport">Sport:</label><br>
+  <select id="sport" name="sport">
+    <option value="Football">Football</option>
+    <option value="Lacrosse">Lacrosse</option>
+    <option value="Swimming">Swimming</option>
+    <option value="Soccer">Soccer</option>
+    <option value="Basketball">Basketball</option>
+    <option value="Volleyball">Volleyball</option>
+  </select><br>
+  <label for="gender">Gender:</label><br>
+  <select id="gender" name="gender">
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select><br>
+  <label for="schoolid">First name:</label><br>
+  <input type="text" id="schoolid" name="schoolid"><br>
+  <input type="submit" value="Add Student">
+</form>
 <ul class="main-list">
   <table>
   <tr>
@@ -68,34 +97,8 @@
       <td>{{student.gender}}</td>
     </tr>
   {% endfor %}
-<div id="student-management">
-  <h3>Manage Students</h3>
-  <input type="text" id="studentNameInput" placeholder="Enter student name" />
-  <button class="action-button" onclick="addStudent()">Add Student</button>
-  <ul id="studentList" class="student-list">
-    <!-- Dynamically added student entries will appear here -->
-  </ul>
-</div>
 
-<script>
-  function addStudent() {
-    const studentName = document.getElementById('studentNameInput').value.trim();
-    if (studentName === '') {
-      alert('Please enter a student name.');
-      return;
-    }
-    const studentList = document.getElementById('studentList');
-    const li = document.createElement('li');
-    li.textContent = studentName + " ";
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.className = 'action-button';
-    removeButton.onclick = function() { this.parentNode.remove(); };
-    li.appendChild(removeButton);
-    studentList.appendChild(li);
-    document.getElementById('studentNameInput').value = ''; // Clear input field
-  }
-</script>
+
 
 </body>
 </html>

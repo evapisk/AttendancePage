@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="button-container">
-  <form action="/female" method="get">
-    <button type="submit">female</button>
-  </form>
-  <form action="/male" method="get">
-    <button type="submit">male</button>
-  </form>
+ {% for gender in gender_list %}
+  <a href="/gender/{{gender}}">{{gender.capitalize()}}s</a><br>
+  {% endfor %}
 </div>

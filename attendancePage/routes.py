@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 from . import db
 from .auth import unauthorized
@@ -48,49 +48,52 @@ def yearsheet():
         'sheets/year.html'
     )
 
+@bp.route('/year/<int:year>')
+def year(year):
+    title = f"{year}th Graders"
+    return render_template(
+        'student_sheet_template.html',
+        student_list = db.session.execute(db.select(Student).filter_by(year=year)).scalars(), title = title
+    )
+
 @bp.route('/sport')
 def sport():
+    sport_list = ['football','lacrosse','volleyball','basketball','swimming','soccer']
     return render_template(
-        'sheets/sport.html'
+        'sheets/sport.html',sport_list=sport_list
+    )
+
+@bp.route('/sport/<string:sport>')
+def sport_page(sport):
+    title = f"{sport.capitalize()} Players"
+    return render_template(
+        'student_sheet_template.html',student_list = db.session.execute(db.select(Student).filter_by(sport=sport)).scalars(), sport = sport, title = title
     )
 
 @bp.route('/gender')
 def gender():
+    gender_list = ['male','female']
     return render_template(
-        'sheets/gender.html'
+        'sheets/gender.html', gender_list=gender_list, gender=gender
     )
 
-
-@bp.route('/year/<int:year>')
-def year(year):
+@bp.route('/gender/<string:gender>')
+def gender_page(gender):
+    title = f"{gender.capitalize()}s"
     return render_template(
-        'student_sheet_template.html',
-        year_list6 = db.session.execute(db.select(Student).filter_by(year=year)).scalars()
-    )
-@bp.route('/7')
-def seven():
-    return render_template(
-        'sheets/year/7.html',
-        year_list7 = Student.query.all()
-    )
-@bp.route('/8')
-def eight():
-    return render_template(
-        'sheets/year/8.html',
-        year_list8 = Student.query.all()
+        'student_sheet_template.html',student_list = db.session.execute(db.select(Student).filter_by(gender=gender[0].capitalize())).scalars(), gender = gender, title = title
     )
 
-@bp.route('/female')
-def female():
+@bp.route('/addstudent',methods=['POST'])
+def add_student():
+    if request.method == 'POST':
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        year = request.form.get('year')
+        sport = request.form.get('sport')
+        gender = request.form.get('gender')
+        schoolid = request.form.get('schoolid')
+        student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
     return render_template(
-        'sheets/gender/female.html',
-        female_list = Student.query.all()
+        'main_page.html'
     )
-
-@bp.route('/male')
-def male():
-    return render_template(
-        'sheets/gender/male.html',
-        male_list = Student.query.all()
-    )
-

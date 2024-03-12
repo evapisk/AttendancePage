@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<h2 align="center">6th Graders</h2>
+<h2 align="center">{{title}}</h2>
 <ul class="main-list">
   <table>
   <tr>
@@ -18,7 +18,7 @@
     <td style="padding: 40px"></td>
     <th>Gender</th>
   </tr>
-  {% for student in year_list6 %}
+  {% for student in student_list %}
     <tr>
       <td style="padding: 40px"></td>
       <td>{{student.name}}</td>

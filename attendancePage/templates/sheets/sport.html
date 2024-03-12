@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="button-container">
-  <form action="/female" method="get">
-    <button type="submit">sport 1</button>
-  </form>
-  <form action="/male" method="get">
-    <button type="submit">sport 2</button>
-  </form>
+ {% for sport in sport_list %}
+  <a href="/sport/{{sport}}">{{sport.capitalize()}} Players</a><br>
+  {% endfor %}
 </div>

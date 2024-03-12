@@ -42,3 +42,4 @@ def openData():
         return {'year_list6': year_list6, 'year_list7': year_list7, 'year_list8': year_list8, 'male_list': male_list,
                 'female_list': female_list}
 
+def
