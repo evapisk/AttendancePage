@@ -1,8 +1,7 @@
 import json
-from pprint import pprint
+# json library
 from .models import Student
 from . import db
-from .routes import year
 
 
 def openData():
@@ -14,35 +13,32 @@ def openData():
         year_list8 = []
         male_list = []
         female_list = []
-        pprint(student_list)
-        #loop
-        print("hi")
+        print(student_list)
+
         for student_data in student_list:
-            student = Student(id=student_data.id, name=student_data.name, gender=student_data.gender, sport=student_data.sport, year=student_data.year)
-            if Student[year]=="6":
+            #Accessing attributes in a JSON object using keys
+            student = Student(id=student_data['id'], name=student_data['name'], gender=student_data['gender'],
+                              sport=student_data['sport'], year=student_data['year'])
+
+            # Fixed condition checks and appending to lists
+            if student.year == "6":
                 year_list6.append(student)
-                print("yes")
-            elif (Student[year] == "7"):
-                year_list7.append(Student)
+            elif student.year == "7":
+                year_list7.append(student)
+            else:  # Assuming all other students are in year 8
+                year_list8.append(student)
+
+            if student.gender == 'F':
+                female_list.append(student)
             else:
-                year_list8.append(Student)
-            if Student[gender] == 'F':
-                female_list.append(Student)
-            else:
-                male_list.append(Student)
-            pprint(year_list6)
+                male_list.append(student)
+
             db.add(student)
             print(student)
+
         db.commit()
-        return year_list6
-        return year_list7
-        return year_list8
 
-
-
-
-
-
-
-
+        # Return lists in a tuple or a dictionary
+        return {'year_list6': year_list6, 'year_list7': year_list7, 'year_list8': year_list8, 'male_list': male_list,
+                'female_list': female_list}
 

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, render_template
 
+from . import db
 from .auth import unauthorized
 from .models import Student
 
@@ -42,7 +43,7 @@ def admin():
 
 bp1 = Blueprint('sheets', __name__, url_prefix='/sheets')
 @bp.route('/year')
-def year():
+def yearsheet():
     return render_template(
         'sheets/year.html'
     )
@@ -59,11 +60,12 @@ def gender():
         'sheets/gender.html'
     )
 
-@bp.route('/6')
-def six():
+
+@bp.route('/year/<int:year>')
+def year(year):
     return render_template(
-        'sheets/year/6.html',
-        year_list6 = Student.query.all()
+        'student_sheet_template.html',
+        year_list6 = db.session.execute(db.select(Student).filter_by(year=year)).scalars()
     )
 @bp.route('/7')
 def seven():
