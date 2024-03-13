@@ -4,13 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="button-container">
-  <form action="/year/6" method="get">
-    <button type="submit">6th</button>
-  </form>
-  <form action="/year/7" method="get">
-    <button type="submit">7th</button>
-  </form>
-  <form action="/year/8" method="get">
-    <button type="submit">8th</button>
-  </form>
+ {% for year in year_list %}
+  <a href="/year/{{year}}">{{year.capitalize()}}th Graders</a><br>
+  {% endfor %}
 </div>

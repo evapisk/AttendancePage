@@ -43,13 +43,14 @@ def admin():
 
 bp1 = Blueprint('sheets', __name__, url_prefix='/sheets')
 @bp.route('/year')
-def yearsheet():
+def year():
+    year_list = ['6','7','8']
     return render_template(
-        'sheets/year.html'
+        'sheets/year.html',year_list = year_list, year=year
     )
 
 @bp.route('/year/<int:year>')
-def year(year):
+def year_page(year):
     title = f"{year}th Graders"
     return render_template(
         'student_sheet_template.html',
@@ -94,6 +95,24 @@ def add_student():
         gender = request.form.get('gender')
         schoolid = request.form.get('schoolid')
         student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
-    return render_template(
-        'main_page.html'
+        db.session.add(student)
+        db.session.commit()
+    return redirect(
+        "/master"
+    )
+
+@bp.route('/removestudent',methods=['POST'])
+def remove_student():
+    if request.method == 'POST':
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        year = request.form.get('year')
+        sport = request.form.get('sport')
+        gender = request.form.get('gender')
+        schoolid = request.form.get('schoolid')
+        student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
+        db.session.delete(user)
+        db.session.commit()
+    return redirect(
+        "/master"
     )
