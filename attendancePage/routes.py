@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, render_template, request, url_for, redirect
 
 from . import db
 from .auth import unauthorized
@@ -88,6 +88,7 @@ def gender_page(gender):
 @bp.route('/addstudent',methods=['POST'])
 def add_student():
     if request.method == 'POST':
+        print(fname)
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         year = request.form.get('year')
@@ -97,9 +98,8 @@ def add_student():
         student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
         db.session.add(student)
         db.session.commit()
-    return redirect(
-        "/master"
-    )
+        return redirect(url_for('mainpage'))
+    return render_template('main_page.html')
 
 @bp.route('/removestudent',methods=['POST'])
 def remove_student():
@@ -111,8 +111,7 @@ def remove_student():
         gender = request.form.get('gender')
         schoolid = request.form.get('schoolid')
         student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
-        db.session.delete(user)
+        db.session.delete(student)
         db.session.commit()
-    return redirect(
-        "/master"
-    )
+        return redirect(url_for('mainpage'))
+    return render_template('main_page.html')
