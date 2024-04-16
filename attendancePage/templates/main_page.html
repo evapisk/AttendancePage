@@ -67,14 +67,16 @@
   <label for="gender">Gender:</label><br>
   <select id="gender" name="gender">
     <option value="Male">Male</option>
-    <option value="Female">Female</option>
+    <option value="F">F</option>
   </select><br>
-  <label for="schoolid">School ID:</label><br>
-  <input type="text" id="schoolid" name="schoolid"><br>
-  <form action="{{ url_for('main.add_student') }}" method="post">
-    <input type="submit" value="Add Student">
-  </form>
-  <input type="submit" value="Remove Student">
+  <label for="schoolId">School ID:</label><br>
+  <input type="text" id="schoolId" name="schoolId"><br>
+  <button formaction="{{ url_for('main.add_student') }}" formmethod="post">
+    add student
+  </button>
+  <button type="submit" formaction="{{ url_for('main.remove_student') }}" formmethod="post">
+    delete student
+  </button>
 </form>
 <ul class="main-list">
   <table>
@@ -87,6 +89,8 @@
     <th>Sport</th>
     <td style="padding: 40px"></td>
     <th>Gender</th>
+    <td style="padding: 40px"></td>
+    <th>Student ID</th>
   </tr>
   {% for student in student_list %}
     <tr>
@@ -98,6 +102,8 @@
       <td>{{student.sport}}</td>
       <td style="padding: 40px"></td>
       <td>{{student.gender}}</td>
+      <td style="padding: 40px"></td>
+      <td>{{student.schoolId}}</td>
     </tr>
   {% endfor %}
 

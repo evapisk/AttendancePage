@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 
@@ -30,8 +31,11 @@ def create_app():
     login_manager.init_app(app)
 
 
-    # with app.app_context():
-    #     db.create_all()
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+
+
 
     from . import auth
     app.register_blueprint(auth.bp)
@@ -41,7 +45,7 @@ def create_app():
 
     return app
 
-
+create_app()
 # @login_manager.user_loader
 # def load_user(user_id):
 #     return User.get(user_id)

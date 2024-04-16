@@ -50,11 +50,14 @@ def year():
     )
 
 @bp.route('/year/<int:year>')
+#creates a route where the year value is inputted based off of list
 def year_page(year):
     title = f"{year}th Graders"
+    #creates the title of the link on the year page
     return render_template(
         'student_sheet_template.html',
         student_list = db.session.execute(db.select(Student).filter_by(year=year)).scalars(), title = title
+        #renders the student sheet template with a year filter
     )
 
 @bp.route('/sport')
@@ -85,33 +88,49 @@ def gender_page(gender):
         'student_sheet_template.html',student_list = db.session.execute(db.select(Student).filter_by(gender=gender[0].capitalize())).scalars(), gender = gender, title = title
     )
 
-@bp.route('/addstudent',methods=['POST'])
+@bp.route('/student/add',methods=['POST', 'GET'])
 def add_student():
     if request.method == 'POST':
-        print(fname)
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         year = request.form.get('year')
         sport = request.form.get('sport')
         gender = request.form.get('gender')
-        schoolid = request.form.get('schoolid')
-        student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
+        schoolId = request.form.get('schoolId')
+        student = Student(name=str(fname) + " " + str(lname), year=year, sport=sport, gender=gender, schoolId=schoolId)
         db.session.add(student)
         db.session.commit()
-        return redirect(url_for('mainpage'))
+        return redirect(url_for('main.mainpage'))
     return render_template('main_page.html')
 
-@bp.route('/removestudent',methods=['POST'])
+@bp.route('/student/remove',methods=['POST'])
 def remove_student():
+    print('hi')
     if request.method == 'POST':
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        year = request.form.get('year')
-        sport = request.form.get('sport')
-        gender = request.form.get('gender')
-        schoolid = request.form.get('schoolid')
-        student = Student(name=fname + " " + lname, year=year, sport=sport, gender=gender, schoolId=schoolid)
+        schoolId = request.form.get('schoolId')
+        student = Student.query.filter_by(schoolId=schoolId).first()
+        print(student)
         db.session.delete(student)
         db.session.commit()
-        return redirect(url_for('mainpage'))
+        return redirect(url_for('main.mainpage'))
     return render_template('main_page.html')
+
+
+@bp.route('/importdata',methods=['GET'])
+def import_data():
+    import json
+    with open('fakeStudentsForEva.txt') as f:
+        student_list = json.load(f)
+        print(student_list)
+
+        for student_data in student_list:
+            #Accessing attributes in a JSON object using keys
+            student = Student(id=student_data['id'], name=student_data['name'], gender=student_data['gender'],
+                              sport=student_data['sport'], year=student_data['year'])
+
+            # Fixed condition checks and appending to lists
+
+            db.add(student)
+            print(student)
+
+        db.commit()
