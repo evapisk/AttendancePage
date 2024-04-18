@@ -43,41 +43,8 @@
   </form>
 </div>
 
-<h2 align="center">Master Sheet</h2>
+<h2 align="center">Master Attendance Sheet</h2>
 <form action="/student" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname"><br>
-  <label for="year">Grade:</label><br>
-  <select id="year" name="year">
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-  </select><br>
-  <label for="sport">Sport:</label><br>
-  <select id="sport" name="sport">
-    <option value="Football">Football</option>
-    <option value="Lacrosse">Lacrosse</option>
-    <option value="Swimming">Swimming</option>
-    <option value="Soccer">Soccer</option>
-    <option value="Basketball">Basketball</option>
-    <option value="Volleyball">Volleyball</option>
-  </select><br>
-  <label for="gender">Gender:</label><br>
-  <select id="gender" name="gender">
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-  </select><br>
-  <label for="schoolId">School ID:</label><br>
-  <input type="text" id="schoolId" name="schoolId"><br>
-  <button formaction="{{ url_for('main.add_student') }}" formmethod="post">
-    add student
-  </button>
-  <button type="submit" formaction="{{ url_for('main.remove_student') }}" formmethod="post">
-    delete student
-  </button>
-</form>
 <ul class="main-list">
   <table>
   <tr>
@@ -91,6 +58,8 @@
     <th>Gender</th>
     <td style="padding: 40px"></td>
     <th>Student ID</th>
+    <td style="padding: 40px"></td>
+    <th>Attendance</th>
   </tr>
   {% for student in student_list %}
     <tr>
@@ -104,11 +73,18 @@
       <td>{{student.gender}}</td>
       <td style="padding: 40px"></td>
       <td>{{student.schoolId}}</td>
+      <input type="radio" id="html" name="fav_language" value="HTML">
+      <label for="html">HTML</label><br>
+      <input type="radio" id="css" name="fav_language" value="CSS">
+      <label for="css">CSS</label><br>
+      <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+      <label for="javascript">JavaScript</label>
+
     </tr>
   {% endfor %}
 
 
-
+</form>
 </body>
 </html>
 

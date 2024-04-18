@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
+
 from . import db
 from flask_login import UserMixin
 import json
@@ -16,6 +18,13 @@ class Student(db.Model):
     year = db.Column(db.Integer)
     sport = db.Column(db.String(20))
     gender = db.Column(db.String(10))
+
+class Attendance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime)
+    status = db.Column(db.String(10))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    student = db.relationship("Student", backref=backref("student", uselist=False))
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}

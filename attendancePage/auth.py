@@ -29,6 +29,12 @@ def unauthorized():
 def register():
     if request.method == 'POST':
         email = request.form['username']
+        #checks email domain and restricts to anything but @mynbps.org
+        DOMAINS_ALLOWED = ['mynbps.org','nbps.org']
+        email_domain = request.form['username'].split('@')[-1]
+
+        if email_domain not in DOMAINS_ALLOWED:
+            return "You're not allowed to register from this email provider."
         password = request.form['password']
 
         user = User.query.filter_by(

@@ -119,18 +119,26 @@ def remove_student():
 @bp.route('/importdata',methods=['GET'])
 def import_data():
     import json
-    with open('fakeStudentsForEva.txt') as f:
+    with open('attendancePage/fakeStudentsForEva.txt') as f:
         student_list = json.load(f)
         print(student_list)
 
         for student_data in student_list:
             #Accessing attributes in a JSON object using keys
-            student = Student(id=student_data['id'], name=student_data['name'], gender=student_data['gender'],
-                              sport=student_data['sport'], year=student_data['year'])
+            student = Student(schoolId=student_data['id'], name=student_data['name'], gender=student_data['gender'],
+                              sport=student_data['sport'], year=student_data['yearGroup'])
 
             # Fixed condition checks and appending to lists
 
-            db.add(student)
+            db.session.add(student)
             print(student)
 
-        db.commit()
+        db.session.commit()
+    return redirect(url_for('main.mainpage'))
+
+@bp.route('/attendancemainpage')
+def attendance_main():
+    return render_template(
+        'attendance_page.html',
+        student_list=Student.query.all()
+    )
