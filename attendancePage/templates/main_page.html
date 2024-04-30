@@ -4,116 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Main Page</title>
+<!-- Include Bootstrap CSS from CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-  }
   .button-container {
     margin-bottom: 20px;
-  }
-  button {
-    margin-right: 10px;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .main-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  .main-list li {
-    padding: 8px;
-    background-color: #f0f0f0;
-    margin-bottom: 5px;
   }
 </style>
 </head>
 
-<body>
+<body class="container py-4">
 
-<div class="button-container">
+<div class="button-container d-flex justify-content-between">
   <form action="/master" method="get">
-    <button type="submit">Master Sheet</button>
+    <button type="submit" class="btn btn-dark">Master Sheet</button>
   </form>
   <form action="/indv" method="get">
-    <button type="submit">Individual Sheets</button>
+    <button type="submit" class="btn btn-dark">Individual Sheets</button>
   </form>
-  <form action="/admin" method="get">
-    <button type="submit">Admin Controls</button>
+  <form action="/attendancemainpage" method="get">
+    <button type="submit" class="btn btn-dark">Attendance Page</button>
+  </form>
+  <form action="/auth/login" method="get">
+      <button type="submit" class="btn btn-dark">Login</button>
   </form>
 </div>
 
-<h2 align="center">Master Sheet</h2>
-<form action="/student" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname"><br>
-  <label for="year">Grade:</label><br>
-  <select id="year" name="year">
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-  </select><br>
-  <label for="sport">Sport:</label><br>
-  <select id="sport" name="sport">
-    <option value="Football">Football</option>
-    <option value="Lacrosse">Lacrosse</option>
-    <option value="Swimming">Swimming</option>
-    <option value="Soccer">Soccer</option>
-    <option value="Basketball">Basketball</option>
-    <option value="Volleyball">Volleyball</option>
-  </select><br>
-  <label for="gender">Gender:</label><br>
-  <select id="gender" name="gender">
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-  </select><br>
-  <label for="schoolId">School ID:</label><br>
-  <input type="text" id="schoolId" name="schoolId"><br>
-  <button formaction="{{ url_for('main.add_student') }}" formmethod="post">
-    add student
-  </button>
-  <button type="submit" formaction="{{ url_for('main.remove_student') }}" formmethod="post">
-    delete student
-  </button>
-</form>
+<h2 class="text-center mb-4">Master Sheet</h2>
+
+<!-- Accordion for adding/removing students -->
+<div class="accordion" id="studentActions">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+        Add/Remove Student
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#studentActions">
+      <div class="accordion-body">
+        <form>
+          <div class="mb-3">
+            <label for="fname" class="form-label">First name:</label>
+            <input type="text" id="fname" name="fname" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="lname" class="form-label">Last name:</label>
+            <input type="text" id="lname" name="lname" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="year" class="form-label">Grade:</label>
+            <select id="year" name="year" class="form-select">
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="sport" class="form-label">Sport:</label>
+            <select id="sport" name="sport" class="form-select">
+              <option value="Football">Football</option>
+              <option value="Lacrosse">Lacrosse</option>
+              <option value="Swimming">Swimming</option>
+              <option value="Soccer">Soccer</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Volleyball">Volleyball</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <select id="gender" name="gender" class="form-select">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="schoolId" class="form-label">School ID:</label>
+            <input type="text" id="schoolId" name="schoolId" class="form-control">
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-success" formaction="{{ url_for('main.add_student') }}" formmethod="post">Add Student</button>
+            <button class="btn btn-danger" formaction="{{ url_for('main.remove_student') }}" formmethod="post">Remove Student</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <ul class="main-list">
-  <table>
-  <tr>
-    <td style="padding: 40px"></td>
-    <th>Name</th>
-    <td style="padding: 40px"></td>
-    <th>Grade</th>
-    <td style="padding: 40px"></td>
-    <th>Sport</th>
-    <td style="padding: 40px"></td>
-    <th>Gender</th>
-    <td style="padding: 40px"></td>
-    <th>Student ID</th>
-  </tr>
-  {% for student in student_list %}
-    <tr>
-      <td style="padding: 40px"></td>
-      <td>{{student.name}}</td>
-      <td style="padding: 40px"></td>
-      <td>{{student.year}}</td>
-      <td style="padding: 40px"></td>
-      <td>{{student.sport}}</td>
-      <td style="padding: 40px"></td>
-      <td>{{student.gender}}</td>
-      <td style="padding: 40px"></td>
-      <td>{{student.schoolId}}</td>
-    </tr>
-  {% endfor %}
-
-
-
-</body>
-</html>
-
-  <!-- Add more list items as needed -->
+  <!-- List of students or other content here -->
 </ul>
 
+<!-- Include Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Grade</th>
+      <th>Sport</th>
+      <th>Gender</th>
+      <th>Student ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in student_list %}
+    <tr>
+      <td>{{student.name}}</td>
+      <td>{{student.year}}</td>
+      <td>{{student.sport}}</td>
+      <td>{{student.gender}}</td>
+      <td>{{student.schoolId}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 </body>
 </html>
+```

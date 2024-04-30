@@ -34,11 +34,6 @@ def indv():
     return render_template(
         'indv.html'
     )
-@bp.route('/admin')
-def admin():
-    return render_template(
-        'admin.html'
-    )
 
 
 bp1 = Blueprint('sheets', __name__, url_prefix='/sheets')
@@ -142,3 +137,8 @@ def attendance_main():
         'attendance_page.html',
         student_list=Student.query.all()
     )
+
+@bp.route("/attendanceupdate")
+def attendance_update():
+
+    return redirect(url_for('main.mainpage'))
