@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from flask_login import LoginManager, login_manager
-# from . import models
+#from . import models
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -39,13 +39,14 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.bp)
-
+    from .models import User
     from . import routes
     app.register_blueprint(routes.bp)
 
     return app
 
-create_app()
 # @login_manager.user_loader
 # def load_user(user_id):
 #     return User.get(user_id)
+
+create_app()
