@@ -1,105 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Main Page</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-  .button-container {
-    margin-bottom: 20px;
-  }
-  button {
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  .main-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  .main-list li {
-    padding: 8px;
-    background-color: #f0f0f0;
-    margin-bottom: 5px;
-  }
-  .table th, .table td {
-    padding: 15px; /* Standardized padding for table cells */
-    text-align: center;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .button-container {
+            margin-bottom: 20px;
+        }
+        button {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .table th, .table td {
+            padding: 15px; /* Standardized padding for table cells */
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container mt-4">
-  <div class="button-container d-flex justify-content-between">
-    <form action="/master" method="get">
-      <button type="submit" class="btn btn-dark">Master Sheet</button>
-    </form>
-    <form action="/indv" method="get">
-      <button type="submit" class="btn btn-dark">Individual Sheets</button>
-    </form>
-    <form action="/auth/login" method="get">
-      <button type="submit" class="btn btn-dark">Login Page</button>
-    </form>
-  </div>
+    <div class="button-container d-flex justify-content-between">
+        <form action="/master" method="get">
+            <button type="submit" class="btn btn-dark">Master Sheet</button>
+        </form>
+        <form action="/indv" method="get">
+            <button type="submit" class="btn btn-dark">Individual Sheets</button>
+        </form>
+        <form action="/auth/login" method="get">
+            <button type="submit" class="btn btn-dark">Login Page</button>
+        </form>
+    </div>
 
-  <h2 class="text-center">Master Attendance Sheet</h2>
-  <form action="/attendanceupdate" method="get">
-    <button type="submit" class="btn btn-primary mb-3">Submit Attendance</button>
-  </form>
+    <h2 class="text-center">Master Attendance Sheet</h2>
 
-  <form action="/student" method="post">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Grade</th>
-          <th>Sport</th>
-          <th>Gender</th>
-          <th>Student ID</th>
-          <th>Attendance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for student in student_list %}
-        <tr>
-          <td>{{ student.name }}</td>
-          <td>{{ student.year }}</td>
-          <td>{{ student.sport }}</td>
-          <td>{{ student.gender }}</td>
-          <td>{{ student.schoolId }}</td>
-          <td>{{ student.name }}</td>
-          <table>
-          <form action="{{ url_for('main.attendance_update') }}" method="post">
-            <td>
-                <div id="statuses_{{ student.id }}" class="d-flex justify-content-center">
-                    <input type="hidden" name="student_id" value="{{ student.id }}">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="present_{{ student.id }}" value="Present"
-                               {% if student.attendance_status == 'Present' %}checked{% endif %}>
-                        <label class="form-check-label" for="present_{{ student.id }}">Present</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="late_{{ student.id }}" value="Late"
-                               {% if student.attendance_status == 'Late' %}checked{% endif %}>
-                        <label class="form-check-label" for="late_{{ student.id }}">Late</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="absent_{{ student.id }}" value="Absent"
-                               {% if student.attendance_status == 'Absent' %}checked{% endif %}>
-                        <label class="form-check-label" for="absent_{{ student.id }}">Absent</label>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <button type="submit">Update Attendance</button>
-</form>
+    <!-- Combined the form to encompass the entire table for attendance updates -->
+    <form action="{{ url_for('main.attendance_update') }}" method="post">
+        <button type="submit" class="btn btn-primary mb-3">Submit Attendance</button>
 
-      </tbody>
-    </table>
-  </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Sport</th>
+                    <th>Gender</th>
+                    <th>Student ID</th>
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in student_list %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.year }}</td>
+                    <td>{{ student.sport }}</td>
+                    <td>{{ student.gender }}</td>
+                    <td>{{ student.schoolId }}</td>
+                    <td>
+                        <div id="statuses_{{ student.id }}" class="d-flex justify-content-center">
+                            <input type="hidden" name="student_id" value="{{ student.id }}">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="present_{{ student.id }}" value="Present"
+                                       {% if student.attendance_status == 'Present' %}checked{% endif %}>
+                                <label class="form-check-label" for="present_{{ student.id }}">Present</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="late_{{ student.id }}" value="Late"
+                                       {% if student.attendance_status == 'Late' %}checked{% endif %}>
+                                <label class="form-check-label" for="late_{{ student.id }}">Late</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="absent_{{ student.id }}" value="Absent"
+                                       {% if student.attendance_status == 'Absent' %}checked{% endif %}>
+                                <label class="form-check-label" for="absent_{{ student.id }}">Absent</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
