@@ -138,7 +138,11 @@ def attendance_main():
         student_list=Student.query.all()
     )
 
-@bp.route("/attendanceupdate")
+@app.route("/attendanceupdate", methods=['POST'])
 def attendance_update():
-
-    return redirect(url_for('main.mainpage'))
+    # Assuming you want to handle each student's attendance status one at a time
+    student_id = request.form.get('student_id')
+    status = request.form.get(f'attendance_{student_id}')
+    # Process your data here, for example, update the database
+    print(f"Student ID: {student_id}, Status: {status}")  # For demonstration
+    return redirect(url_for('index'))  # Assuming 'index' is the endpoint for your attendance page

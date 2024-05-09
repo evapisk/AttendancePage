@@ -69,6 +69,7 @@
           <td>{{ student.gender }}</td>
           <td>{{ student.schoolId }}</td>
           <td>
+          <form action="{{ url_for('bp.attendance_update') }}" method="post">
             <div id="statuses_{{ student.id }}" class="d-flex justify-content-center">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="present_{{ student.id }}" value="Present">
@@ -83,6 +84,7 @@
                 <label class="form-check-label" for="absent_{{ student.id }}">Absent</label>
               </div>
             </div>
+          </form>
           </td>
         </tr>
         {% endfor %}
