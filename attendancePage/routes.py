@@ -2,8 +2,7 @@ from flask import Blueprint, jsonify, render_template, request, url_for, redirec
 
 from . import db
 from .auth import unauthorized
-from .models import Student
-
+from .models import Student, Attendance
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -13,6 +12,11 @@ def main():
     return render_template(
         'index.html'
     )
+
+
+class Attendance:
+    pass
+
 
 @bp.route('/database')
 def database():
@@ -138,12 +142,37 @@ def attendance_main():
         student_list=Student.query.all()
     )
 
-@bp.route("/attendanceupdate", methods=['POST'])
+
+@bp.route("/attendanceupdate", methods=['GET','POST'])
 def attendance_update():
-    # Assuming you want to handle each student's attendance status one at a time
-    student_id = request.form.get('student_id')
-    status = request.form.get(f'attendance_{student_id}')
-    db.session.add(status)
-    # Process your data here, for example, update the database
-    print(f"Student ID: {student_id}, Status: {status}")  # For demonstration
-    return redirect(url_for('attendance_page.html'))  # Assuming 'index' is the endpoint for your attendance page
+    #get
+    #for loop
+        #check if data for each student exists
+        #if data exists, commit based on student ID
+    if request.method == 'GET':
+        students = Student.query.getlist(student_id)
+        student = Student.query.get(student_id)
+        for student in students:
+            if student.attendance_status:
+                db.commit(attendance_status)
+    if request.method == 'POST':
+        # Retrieve list of student IDs from the form
+        student_ids = request.form.getlist('student_id')
+
+        # Iterate over each student ID
+        for student_id in student_ids:
+            # Get the status for each student from the form using the correct key
+            status = request.form.get(f'attendance_{student_id}')
+
+            # Fetch the student object from the database
+            student = Student.query.get(student_id)
+            if student:
+                # Update the student's attendance status
+                student.attendance_status = status
+
+        # Commit all changes to the database
+        db.session.commit()
+
+        # Redirect to the main attendance page
+    return redirect(url_for('main.attendance_main'))
+

@@ -18,6 +18,7 @@ class Student(db.Model):
     year = db.Column(db.Integer)
     sport = db.Column(db.String(20))
     gender = db.Column(db.String(10))
+    attendance_status = db.Column(db.String(10))  # This field stores the attendance status
 
 class Attendance(db.Model):
     id = db.Column(db.Integer, primary_key=True)

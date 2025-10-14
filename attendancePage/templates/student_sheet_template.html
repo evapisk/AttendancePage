@@ -27,8 +27,8 @@
     <div class="container mt-4">
         <td style="padding: 40px"><form action="/master" method="get">
     <button type="submit" class="btn btn-dark">Master Sheet</button>
-   <form action="/attendanceupdate" method="get">
-    <button type="submit" class="btn btn-primary mb-3">Submit Attendance</button>
+   <form action="{{ url_for('main.attendance_update') }}" method="post">
+        <button type="submit" class="btn btn-primary mb-3">Submit Attendance</button>
   </form>
   </form>
     </td>
@@ -36,7 +36,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Names/th>
                     <th>Grade</th>
                     <th>Sport</th>
                     <th>Gender</th>
@@ -52,14 +52,24 @@
                     <td>{{ student.gender }}</td>
                     <td>
                         <form>
-                            <div class="radio-group">
-                                <input type="radio" id="present_{{ student.id }}" name="attendance_{{ student.id }}" value="Present">
-                                <label for="present_{{ student.id }}">Present</label>
-                                <input type="radio" id="late_{{ student.id }}" name="attendance_{{ student.id }}" value="Late">
-                                <label for="late_{{ student.id }}">Late</label>
-                                <input type="radio" id="absent_{{ student.id }}" name="attendance_{{ student.id }}" value="Absent">
-                                <label for="absent_{{ student.id }}">Absent</label>
+                            <div id="statuses_{{ student.id }}" class="d-flex justify-content-center">
+                            <input type="hidden" name="student_id" value="{{ student.id }}">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="present_{{ student.id }}" value="Present"
+                                       {% if student.attendance_status == 'Present' %}checked{% endif %}>
+                                <label class="form-check-label" for="present_{{ student.id }}">Present</label>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="late_{{ student.id }}" value="Late"
+                                       {% if student.attendance_status == 'Late' %}checked{% endif %}>
+                                <label class="form-check-label" for="late_{{ student.id }}">Late</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="attendance_{{ student.id }}" id="absent_{{ student.id }}" value="Absent"
+                                       {% if student.attendance_status == 'Absent' %}checked{% endif %}>
+                                <label class="form-check-label" for="absent_{{ student.id }}">Absent</label>
+                            </div>
+                        </div>
                         </form>
                     </td>
                 </tr>
